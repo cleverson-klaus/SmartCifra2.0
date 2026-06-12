@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:verify": "node --env-file=.env.local scripts/verify-schema.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",
@@ -14,8 +15,10 @@
     "clsx": "^2.1.1",
     "lucide-react": "^1.17.0",
     "next": "16.2.9",
+    "openai": "^6.42.0",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "youtube-transcript": "^1.3.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

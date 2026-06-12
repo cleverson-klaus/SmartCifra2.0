@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"C:\\\\Users\\\\User\\\\Desktop\\\\SmartCifra\\\\src\\\\app\\\\api\\\\generate\")",
+      "Bash(npm run *)",
+      "Bash(pip --version)",
+      "Bash(py --version)",
+      "Bash(/c/Users/User/Desktop/SmartCifra/python-service/venv/Scripts/pip install *)",
+      "Bash(/c/Users/User/Desktop/SmartCifra/python-service/venv/Scripts/uvicorn main:app --port 8000)",
+      "Bash(curl -s http://localhost:8000/health)"
+    ]
+  }
+}
