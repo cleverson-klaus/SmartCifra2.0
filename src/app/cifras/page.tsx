@@ -8,11 +8,11 @@ export default async function CifrasPage() {
 
   const { data } = await supabase
     .from("songs")
-    .select("id, title, artist, original_key, bpm")
+    .select("id, title, artist, original_key, bpm, genre")
     .eq("is_public", true)
     .order("title");
 
-  const songs = (data ?? []) as Pick<Song, "id" | "title" | "artist" | "original_key" | "bpm">[];
+  const songs = (data ?? []) as Pick<Song, "id" | "title" | "artist" | "original_key" | "bpm" | "genre">[];
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">

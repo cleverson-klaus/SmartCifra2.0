@@ -20,6 +20,7 @@ export interface Song {
   artist: string
   original_key: MusicalKey
   bpm: number | null
+  genre: string | null
   youtube_url: string | null
   audio_path: string | null
   is_public: boolean

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { LogOut, User, ChevronDown } from "lucide-react";
+import { LogOut, User, ChevronDown, Library } from "lucide-react";
 import { logout } from "@/lib/actions/auth";
 
 interface Props {
@@ -45,6 +45,13 @@ export default function UserMenu({ name, email }: Props) {
             <p className="text-sm font-medium text-white truncate">{name ?? "Usuário"}</p>
             <p className="text-xs text-gray-500 truncate">{email}</p>
           </div>
+          <Link
+            href="/minhas-cifras"
+            className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-400 transition-colors hover:bg-gray-800 hover:text-white"
+            onClick={() => setOpen(false)}
+          >
+            <Library className="h-4 w-4" /> Minhas Cifras
+          </Link>
           <Link
             href="/perfil"
             className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-400 transition-colors hover:bg-gray-800 hover:text-white"

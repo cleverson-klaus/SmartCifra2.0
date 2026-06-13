@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -17,6 +17,18 @@ export const metadata: Metadata = {
   title: "SmartCifra — Aprenda música com IA",
   description:
     "Plataforma de cifras inteligentes com professor IA, geração automática de cifras a partir de áudio e player interativo.",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "SmartCifra",
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#030712",
 };
 
 export default function RootLayout({

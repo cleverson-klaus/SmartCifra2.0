@@ -147,69 +147,78 @@ export default function ChordViewer({ content, originalKey, title, artist, bpm }
   // ---------------------------------------------------------------
   return (
     <div className="space-y-6">
-      {/* Barra de controles: transposição + auto-scroll */}
-      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-gray-800 bg-gray-900 p-4">
-        {/* Tom */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-400">Tom:</span>
-          <span
-            className={clsx(
-              "min-w-[3rem] text-center rounded-lg px-3 py-1 font-mono font-bold transition-colors",
+      {/* Barra de controles */}
+      <div className="rounded-xl border border-gray-800 bg-gray-900 p-3 sm:p-4">
+        {/* Linha 1: Tom + Professor */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+          {/* Tom */}
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <span className="text-xs text-gray-500 sm:text-sm sm:text-gray-400">Tom:</span>
+            <span className={clsx(
+              "min-w-[2.5rem] rounded-lg px-2 py-1 text-center font-mono text-sm font-bold transition-colors sm:px-3",
               isTransposed ? "bg-indigo-600 text-white" : "bg-gray-800 text-gray-200"
-            )}
-          >
-            {currentKey}
-          </span>
-          {isTransposed && (
-            <span className="text-xs text-gray-500">
-              ({semitones > 0 ? "+" : ""}{semitones} st)
+            )}>
+              {currentKey}
             </span>
-          )}
-        </div>
+            {isTransposed && (
+              <span className="hidden text-xs text-gray-500 sm:inline">
+                ({semitones > 0 ? "+" : ""}{semitones} st)
+              </span>
+            )}
+          </div>
 
-        {/* Semitons */}
-        <div className="flex items-center gap-1">
-          <button onClick={() => setSemitones((s) => s - 1)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-gray-300 transition-colors hover:border-indigo-500 hover:text-white"
-            title="Baixar meio tom">
-            <ChevronDown className="h-4 w-4" />
-          </button>
-          <button onClick={() => setSemitones((s) => s + 1)}
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-gray-300 transition-colors hover:border-indigo-500 hover:text-white"
-            title="Subir meio tom">
-            <ChevronUp className="h-4 w-4" />
-          </button>
-          {isTransposed && (
-            <button onClick={() => setSemitones(0)}
-              className="flex h-8 items-center gap-1 rounded-lg border border-gray-700 bg-gray-800 px-2 text-xs text-gray-400 transition-colors hover:border-gray-500 hover:text-white"
-              title="Voltar ao tom original">
-              <RotateCcw className="h-3 w-3" /> Reset
+          {/* Semitons */}
+          <div className="flex items-center gap-1">
+            <button onClick={() => setSemitones((s) => s - 1)}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-gray-300 transition-colors hover:border-indigo-500 hover:text-white"
+              title="Baixar meio tom">
+              <ChevronDown className="h-4 w-4" />
             </button>
-          )}
+            <button onClick={() => setSemitones((s) => s + 1)}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-gray-300 transition-colors hover:border-indigo-500 hover:text-white"
+              title="Subir meio tom">
+              <ChevronUp className="h-4 w-4" />
+            </button>
+            {isTransposed && (
+              <button onClick={() => setSemitones(0)}
+                className="flex h-8 items-center gap-1 rounded-lg border border-gray-700 bg-gray-800 px-2 text-xs text-gray-400 transition-colors hover:border-gray-500 hover:text-white"
+                title="Voltar ao tom original">
+                <RotateCcw className="h-3 w-3" />
+                <span className="hidden sm:inline">Reset</span>
+              </button>
+            )}
+          </div>
+
+          {/* Sustenidos / Bemóis */}
+          <button onClick={() => setUseFlats((f) => !f)}
+            className={clsx(
+              "rounded-lg border px-2 py-1 text-xs font-medium transition-colors sm:px-3",
+              useFlats
+                ? "border-indigo-500 bg-indigo-600/20 text-indigo-300"
+                : "border-gray-700 bg-gray-800 text-gray-400 hover:border-gray-500 hover:text-white"
+            )}>
+            {useFlats ? "b" : "#"}
+            <span className="hidden sm:inline">{useFlats ? " Bemóis" : " Sustenidos"}</span>
+          </button>
+
+          {/* Entender esta cifra */}
+          <button
+            onClick={() => setShowProfessor(true)}
+            className="ml-auto flex items-center gap-1.5 rounded-lg border border-indigo-700/50 bg-indigo-600/10 px-2 py-1.5 text-xs font-medium text-indigo-300 transition-colors hover:border-indigo-500 hover:bg-indigo-600/20 sm:px-3"
+          >
+            <GraduationCap className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Entender esta cifra</span>
+          </button>
         </div>
 
-        {/* Sustenidos / Bemóis */}
-        <button onClick={() => setUseFlats((f) => !f)}
-          className={clsx(
-            "rounded-lg border px-3 py-1 text-xs font-medium transition-colors",
-            useFlats
-              ? "border-indigo-500 bg-indigo-600/20 text-indigo-300"
-              : "border-gray-700 bg-gray-800 text-gray-400 hover:border-gray-500 hover:text-white"
-          )}>
-          {useFlats ? "Bemóis (b)" : "Sustenidos (#)"}
-        </button>
-
-        {/* Separador */}
-        <div className="hidden h-5 w-px bg-gray-700 sm:block" />
-
-        {/* Auto-scroll — velocidade */}
-        <div className="flex items-center gap-1.5">
-          <Gauge className="h-3.5 w-3.5 text-gray-500" />
-          <span className="text-xs text-gray-500">Vel:</span>
+        {/* Linha 2: Velocidade + BPM */}
+        <div className="mt-2.5 flex flex-wrap items-center gap-1.5 border-t border-gray-800 pt-2.5 sm:gap-2">
+          <Gauge className="h-3.5 w-3.5 text-gray-600" />
+          <span className="text-xs text-gray-600">Vel:</span>
           {SPEED_STEPS.map((s) => (
             <button key={s} onClick={() => setSpeed(s)}
               className={clsx(
-                "h-7 min-w-[2.2rem] rounded-md border px-1.5 text-xs font-mono font-medium transition-colors",
+                "h-7 min-w-[2rem] rounded-md border px-1 text-xs font-mono font-medium transition-colors sm:min-w-[2.2rem] sm:px-1.5",
                 speed === s
                   ? "border-emerald-500 bg-emerald-600/20 text-emerald-300"
                   : "border-gray-700 bg-gray-800 text-gray-500 hover:border-gray-500 hover:text-white"
@@ -217,23 +226,12 @@ export default function ChordViewer({ content, originalKey, title, artist, bpm }
               {s}×
             </button>
           ))}
+          {bpm && (
+            <span className="ml-1 text-xs text-gray-600">
+              <span className="font-mono text-gray-500">{bpm}</span> BPM
+            </span>
+          )}
         </div>
-
-        {/* BPM */}
-        {bpm && (
-          <span className="text-sm text-gray-500">
-            <span className="font-mono text-gray-400">{bpm}</span> BPM
-          </span>
-        )}
-
-        {/* Entender esta cifra */}
-        <button
-          onClick={() => setShowProfessor(true)}
-          className="ml-auto flex items-center gap-1.5 rounded-lg border border-indigo-700/50 bg-indigo-600/10 px-3 py-1.5 text-xs font-medium text-indigo-300 transition-colors hover:border-indigo-500 hover:bg-indigo-600/20 hover:text-indigo-200"
-        >
-          <GraduationCap className="h-3.5 w-3.5" />
-          Entender esta cifra
-        </button>
       </div>
 
       {/* Cifra */}
@@ -276,7 +274,7 @@ export default function ChordViewer({ content, originalKey, title, artist, bpm }
           Barra flutuante de auto-scroll (fixa no rodapé)
       ---------------------------------------------------------------- */}
       <div className={clsx(
-        "fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transition-all duration-300",
+        "fixed bottom-20 left-1/2 z-50 -translate-x-1/2 transition-all duration-300 sm:bottom-6",
         scrolling ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
       )}>
         <div className="flex items-center gap-2 rounded-full border border-gray-700 bg-gray-900/95 px-4 py-2 shadow-2xl backdrop-blur-sm">
@@ -336,7 +334,7 @@ export default function ChordViewer({ content, originalKey, title, artist, bpm }
 
       {/* Botão de iniciar auto-scroll (visível quando parado) */}
       <div className={clsx(
-        "fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transition-all duration-300",
+        "fixed bottom-20 left-1/2 z-50 -translate-x-1/2 transition-all duration-300 sm:bottom-6",
         !scrolling ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
       )}>
         <button onClick={startScroll}
@@ -356,7 +354,7 @@ export default function ChordViewer({ content, originalKey, title, artist, bpm }
             onClick={() => setShowProfessor(false)}
           />
           {/* Drawer */}
-          <div className="flex w-full max-w-md flex-col border-l border-gray-800 bg-gray-950 shadow-2xl">
+          <div className="flex w-full flex-col border-l border-gray-800 bg-gray-950 shadow-2xl sm:max-w-md">
             <div className="flex items-center justify-between border-b border-gray-800 px-5 py-4">
               <div className="flex items-center gap-2">
                 <GraduationCap className="h-5 w-5 text-indigo-400" />

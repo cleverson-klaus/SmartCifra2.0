@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ChordViewer from "@/components/ChordViewer";
+import ShareButton from "@/components/ShareButton";
 import { Music2, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { Song, Chord } from "@/types/database";
@@ -45,8 +46,11 @@ export default async function CifraDetailPage({ params }: Props) {
         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-indigo-500/10">
           <Music2 className="h-7 w-7 text-indigo-400" />
         </div>
-        <div>
-          <h1 className="text-2xl font-bold text-white">{song.title}</h1>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-3">
+            <h1 className="text-2xl font-bold text-white">{song.title}</h1>
+            <ShareButton songId={song.id} title={song.title} />
+          </div>
           <p className="text-gray-400">{song.artist}</p>
           <div className="mt-2 flex flex-wrap gap-2">
             <span className="rounded-md bg-gray-800 px-2 py-0.5 text-xs font-mono text-gray-300">
@@ -60,6 +64,7 @@ export default async function CifraDetailPage({ params }: Props) {
           </div>
         </div>
       </div>
+
 
       {chord ? (
         <ChordViewer

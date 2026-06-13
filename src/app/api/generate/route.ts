@@ -22,9 +22,20 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData()
     const url = formData.get('url') as string | null
     const file = formData.get('file') as File | null
+    const rawLyrics = formData.get('lyrics') as string | null
 
     let title: string | undefined
     let artist: string | undefined
+
+    // ---------------------------------------------------------------
+    // Fonte 0: Letra em texto puro (Vagalume ou colada manualmente)
+    // ---------------------------------------------------------------
+    if (rawLyrics?.trim()) {
+      title = (formData.get('title') as string | null) ?? undefined
+      artist = (formData.get('artist') as string | null) ?? undefined
+      const result = await generateChordSheet({ lyrics: rawLyrics.trim(), title, artist })
+      return NextResponse.json(result)
+    }
 
     // ---------------------------------------------------------------
     // Fonte 1: YouTube URL → legenda + GPT
